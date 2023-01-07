@@ -10,13 +10,13 @@ namespace API_excel.Models
         public int Id { get; set; }     
         public int FileItemId { get; set; }//Внешний ключ
         public FileItem? file { get; set; }//Навигационное свойство 
-        public int AllTime { get; set; }
+        public int? AllTime { get; set; }
         public DateTime? MinTime { get; set; } = null;
-        public double MiddleTime { get; set; }
-        public double MiddleIndicator { get; set; }
-        public double MedianIndicator { get; set; }
-        public double MaxIndicator { get; set; }
-        public double MinIndicator { get; set; }
+        public double? MiddleTime { get; set; }
+        public double? MiddleIndicator { get; set; }
+        public double? MedianIndicator { get; set; }
+        public double? MaxIndicator { get; set; }
+        public double? MinIndicator { get; set; }
         public int StrCount { get; set; }
        
         public Result()

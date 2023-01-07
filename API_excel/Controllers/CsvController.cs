@@ -10,6 +10,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System.ComponentModel.DataAnnotations.Schema;
 using API_excel.CsvService;
+using System.Linq;
+using API_excel.FuncClasses;
 
 namespace API_excel.Controllers
 {
@@ -18,46 +20,31 @@ namespace API_excel.Controllers
     public class CsvController : ControllerBase
     {
         private readonly ICsvService _csvService;
-        public CsvController(ICsvService csvService)
+        public CsvController(ICsvService csvService)//creating a CSVservice object
         {
             _csvService = csvService;
         }
 
-        [HttpPost("~/api/PostCsvFile")]
-        public async Task<IActionResult> PostCsvFile(IFormFile file) // Request.Form.Files
+        [HttpPost("~/api/PostCsvFile")]//Accepts a file of the form .csv
+        public async Task<IActionResult> PostCsvFile(IFormFile file) 
         {
             return await _csvService.PostCsvFile(file, HttpContext);
         }
 
-        [HttpGet("~/api/GetResults_FileName")]
-        public async Task<IActionResult> GetResults_FileName([FromQuery]string fileName)
+        [HttpGet("~/api/GetResults")]//Returns Results
+        public async Task<IActionResult> GetResults([FromQuery]FilterResultSearchModel filterResultSearch)
         {
-            return Ok(await _csvService.GetResults_FileName(fileName));
+           return Ok(await FilterResultSearchClass.GetFilterResult(_csvService, filterResultSearch));                   
         }
 
-        [HttpPost("~/api/GetResults_MiddleIndicator")]
-        public async Task<IActionResult> GetResults_MiddleIndicator([FromBody] MiddleIndicatorInterval middleIndicatorInterval)
-        {
-            return Ok(await _csvService.GetResults_MiddleIndicator(middleIndicatorInterval));
-        }
-
-        [HttpPost("~/api/GetResults_MiddleTime")]
-        public async Task<IActionResult> GetResults_MiddleTime([FromBody] MiddleTimeInterval middleTimeInterval)
-        {
-            return Ok(await _csvService.GetResults_MiddleTime(middleTimeInterval));
-        }
-
-        [HttpPost("~/api/GetResults_TimeReceipt")]
-        public async Task<IActionResult> GetResults_TimeReceipt([FromBody]TimeInterval timeInterval)
-        {
-            return Ok(await _csvService.GetResults_TimeReceipt(timeInterval));
-        }
-
-        [HttpGet("~/api/GetValues")]
+        [HttpGet("~/api/GetValues")]//Return Values 
         public async Task<IActionResult> GetValues([FromQuery]string fileName)
         {
-
-            return Ok(await _csvService.GetValues(fileName));        
+            if (await _csvService.GetValues(fileName) != null)
+            {
+                return Ok(await _csvService.GetValues(fileName));
+            }
+            return BadRequest();
         }
     }
 }

@@ -5,8 +5,8 @@
         public int Id { get; set; }
         public int FileItemId { get; set; }
         public DateTime? time { get; set; } = null;
-        public int seconds { get; set; }
-        public double indicator { get; set; }
+        public int? seconds { get; set; }
+        public double? indicator { get; set; }
         public ValueJSON(Value value)
         {
             Id = value.Id;

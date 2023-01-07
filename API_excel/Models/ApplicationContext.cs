@@ -11,7 +11,6 @@ namespace API_excel.Models
         public ApplicationContext(DbContextOptions<ApplicationContext> options)
             : base(options)
         {
-            //Database.EnsureDeleted();
             Database.EnsureCreated();   //Creates a table on first access                           
         }
     }
