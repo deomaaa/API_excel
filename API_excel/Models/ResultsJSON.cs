@@ -1,17 +1,20 @@
-﻿namespace API_excel.Models
+﻿using System;
+
+namespace API_excel.Models
 {
     public class ResultsJSON
     {
         public int Id { get; set; }
         public int FileItemId { get; set; }
-        public int AllTime { get; set; }
+        public int? AllTime { get; set; }
         public DateTime? MinTime { get; set; } = null;
-        public double MiddleTime { get; set; }
-        public double MiddleIndicator { get; set; }
-        public double MedianIndicator { get; set; }
-        public double MaxIndicator { get; set; }
-        public double MinIndicator { get; set; }
+        public double? MiddleTime { get; set; }
+        public double? MiddleIndicator { get; set; }
+        public double? MedianIndicator { get; set; }
+        public double? MaxIndicator { get; set; }
+        public double? MinIndicator { get; set; }
         public int StrCount { get; set; }
+        
         public ResultsJSON()
         {
 
@@ -29,5 +32,12 @@
             MinIndicator = result.MinIndicator;
             StrCount = result.StrCount;
         }
+        
+        public override bool Equals(object? obj)
+        {
+            if (obj is ResultsJSON resultsJSON) return Id == resultsJSON.Id;
+            return false;
+        }
+        public override int GetHashCode() => Id.GetHashCode();
     }
 }
